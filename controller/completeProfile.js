@@ -4,24 +4,23 @@ const joi = require("joi");
 const bcrypt = require("bcrypt");
 const Joi = require("joi");
 const { Promise } = require("mongoose");
+const path = require("path");
 
 const completeProfile = async (req, res) => {
   // console.log(req.body);
   console.log(req.files);
+  // console.log(req.body);
   const result = validateUser(req.body);
-  if (result.error) {
-    res.status(400).json(result.error.details[0].message);
-    return;
-  }
+  // if (result.error) {
+  //   res.status(400).json(result.error.details[0].message);
+  //   return;
+  // }
 
   const imageUrls = [];
   for (const file of req.files) {
-    const path = file.path.replace(/\\/g, "/");
-    const url = `${req.protocol}://${req.get("host")}${path}`;
-    imageUrls.push(url);
+    imageUrls.push(`${req.protocol}://${req.get("host")}/uploads/${file.filename}`);
   }
 
-  console.log(imageUrls);
 
   const { email, ownerName, companyName, phoneNo, address } = req.body;
   const user = await User.findOne({ email: req.body.email });

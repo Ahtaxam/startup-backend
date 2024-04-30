@@ -1,7 +1,8 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors")
-const bodyParser = require("body-parser")
+const bodyParser = require("body-parser");
+const path = require("path")
 
 const loginRoute = require("./router/auth");
 const signupRoute = require("./router/user");
@@ -11,6 +12,7 @@ const app = express();
 const port = 3000;
 const connectionString = "mongodb://localhost:27017/startUp";
 
+app.use(express.static(path.join(__dirname, 'public')))
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(express.json())
 app.use(cors())

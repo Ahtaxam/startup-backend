@@ -13,8 +13,7 @@ const createUser = async (req, res) => {
   }
   if (req.files.length > 0) {
     const file = req.files[0];
-    const path = file?.path?.replace(/\\/g, "/");
-    url = `${req?.protocol}://${req?.get("host")}${path}`;
+    url = `${req.protocol}://${req.get("host")}/uploads/${file.filename}`;
   }
 
   const user = await User.findOne({ email: req.body.email });
