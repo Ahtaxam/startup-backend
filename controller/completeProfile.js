@@ -5,22 +5,24 @@ const bcrypt = require("bcrypt");
 const Joi = require("joi");
 const { Promise } = require("mongoose");
 const path = require("path");
+const jwt = require("jsonwebtoken");
+// const { config } = require("../config/key");
+const config = require("../config/key");
 
 const completeProfile = async (req, res) => {
-  // console.log(req.body);
-  console.log(req.files);
-  // console.log(req.body);
+
   const result = validateUser(req.body);
-  // if (result.error) {
-  //   res.status(400).json(result.error.details[0].message);
-  //   return;
-  // }
+  if (result.error) {
+    res.status(400).json(result.error.details[0].message);
+    return;
+  }
 
   const imageUrls = [];
   for (const file of req.files) {
-    imageUrls.push(`${req.protocol}://${req.get("host")}/uploads/${file.filename}`);
+    imageUrls.push(
+      `${req.protocol}://${req.get("host")}/uploads/${file.filename}`
+    );
   }
-
 
   const { email, ownerName, companyName, phoneNo, address } = req.body;
   const user = await User.findOne({ email: req.body.email });
@@ -42,19 +44,27 @@ const completeProfile = async (req, res) => {
         },
         { new: true }
       );
+
+      const token = jwt.sign({ _id: user._id }, config.jwtPrivateKey);
+      console.log(token);
       res.status(200).json({
         message: "Profile completed successfully!",
         status: 200,
-        data: _.pick(result, [
-          "_id",
-          "firstName",
-          "email",
-          "role",
-          "companyName",
-          "ownerName",
-          "address",
-          "phoneNo",
-        ]),
+        data: _.pick(
+          result,
+          [
+            "_id",
+            "firstName",
+            "lastName",
+            "email",
+            "role",
+            "companyName",
+            "ownerName",
+            "address",
+            "phoneNo",
+          ],
+        ),
+        token
       });
     } catch (error) {
       res.status(400).send(error.message);

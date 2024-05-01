@@ -1,6 +1,8 @@
 const joi = require("joi");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+// import  config  from "../config/key";
+const config = require("../config/key")
 
 const User = require("../models/user"); 
 

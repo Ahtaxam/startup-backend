@@ -3,6 +3,8 @@ const _ = require("lodash");
 const joi = require("joi");
 const bcrypt = require("bcrypt");
 const Joi = require("joi");
+const jwt = require("jsonwebtoken");
+const config = require("../config/key");
 
 const createUser = async (req, res) => {
   let url = "";
@@ -28,11 +30,13 @@ const createUser = async (req, res) => {
     user.password = await bcrypt.hash(user.password, salt);
     user.profileImage = url;
 
+    const token = jwt.sign({ _id: user._id }, config.jwtPrivateKey);
     try {
       user = await user.save();
       res.status(200).json({
         message: "user created successfully",
-        data: _.pick(user, ["_id", "firstName", "email", "role"]),
+        data: _.pick(user, ["_id", "firstName", "lastName", "email", "role", "profileImage"]),
+        token
       });
     } catch (error) {
       res.status(400).send(error.message);
