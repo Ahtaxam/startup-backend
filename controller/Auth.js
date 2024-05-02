@@ -2,9 +2,9 @@ const joi = require("joi");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 // import  config  from "../config/key";
-const config = require("../config/key")
+const config = require("../config/key");
 
-const User = require("../models/user"); 
+const User = require("../models/user");
 
 const authUser = async (req, res) => {
   const result = validateUser(req.body);
@@ -14,12 +14,12 @@ const authUser = async (req, res) => {
   }
   const user = await User.findOne({ email: req.body.email });
   if (!user) {
-    res.status(400).json("Invalid username or password");
+    res.status(400).json({ message: "Invalid username or password" });
     return;
   } else {
     const validate = await bcrypt.compare(req.body.password, user.password);
     if (!validate) {
-      return res.status(400).json("Invalid Username or password");
+      return res.status(400).json({ message: "Invalid username or password" });
     }
     const token = jwt.sign({ _id: user._id }, config.jwtPrivateKey);
     res
@@ -30,8 +30,7 @@ const authUser = async (req, res) => {
       .status(200)
       .send({
         message: "Login Successsfully...",
-        email: user.email,
-        name: user.name,
+        data: user,
         token: token,
       });
   }
@@ -49,5 +48,4 @@ function validateUser(user) {
   return schema.validate({ email, password });
 }
 
-
-module.exports = authUser
+module.exports = authUser;

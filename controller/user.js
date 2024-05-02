@@ -7,16 +7,16 @@ const jwt = require("jsonwebtoken");
 const config = require("../config/key");
 
 const createUser = async (req, res) => {
-  let url = "";
+  console.log(req.body);
   const result = validateUser(req.body);
   if (result.error) {
     res.status(400).json(result.error.details[0].message);
     return;
   }
-  if (req.files.length > 0) {
-    const file = req.files[0];
-    url = `${req.protocol}://${req.get("host")}/uploads/${file.filename}`;
-  }
+  // if (req.files.length > 0) {
+  //   const file = req.files[0];
+  //   url = `${req.protocol}://${req.get("host")}/uploads/${file.filename}`;
+  // }
 
   const user = await User.findOne({ email: req.body.email });
   if (user) {
@@ -28,15 +28,21 @@ const createUser = async (req, res) => {
     );
     const salt = await bcrypt.genSalt(10);
     user.password = await bcrypt.hash(user.password, salt);
-    user.profileImage = url;
 
     const token = jwt.sign({ _id: user._id }, config.jwtPrivateKey);
     try {
       user = await user.save();
       res.status(200).json({
         message: "user created successfully",
-        data: _.pick(user, ["_id", "firstName", "lastName", "email", "role", "profileImage"]),
-        token
+        data: _.pick(user, [
+          "_id",
+          "firstName",
+          "lastName",
+          "email",
+          "role",
+          "profileImage",
+        ]),
+        token,
       });
     } catch (error) {
       res.status(400).send(error.message);

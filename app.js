@@ -8,6 +8,7 @@ const loginRoute = require("./router/auth");
 const signupRoute = require("./router/user");
 const softwareHouseProfileRoute = require("./router/completeProfile");
 const createJobRoute = require("./router/createJob");
+const updateProfileRoute = require("./router/updateProfile")
 
 const app = express();
 const port = 3100;
@@ -31,6 +32,8 @@ app.use("/api/v1/login", loginRoute);
 app.use("/api/v1/signup", signupRoute);
 app.use("/api/v1/profile", softwareHouseProfileRoute);
 app.use("/api/v1/job", createJobRoute);
+app.use("/api/v1/profile", updateProfileRoute);
+
 
 app.listen(port, () => {
   console.log(`server is listning on port ${port}`);
