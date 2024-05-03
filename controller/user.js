@@ -7,16 +7,11 @@ const jwt = require("jsonwebtoken");
 const config = require("../config/key");
 
 const createUser = async (req, res) => {
-  console.log(req.body);
   const result = validateUser(req.body);
   if (result.error) {
     res.status(400).json(result.error.details[0].message);
     return;
   }
-  // if (req.files.length > 0) {
-  //   const file = req.files[0];
-  //   url = `${req.protocol}://${req.get("host")}/uploads/${file.filename}`;
-  // }
 
   const user = await User.findOne({ email: req.body.email });
   if (user) {
