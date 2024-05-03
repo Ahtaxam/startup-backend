@@ -46,7 +46,6 @@ const completeProfile = async (req, res) => {
       );
 
       const token = jwt.sign({ _id: user._id }, config.jwtPrivateKey);
-      console.log(token);
       res.status(200).json({
         message: "Profile completed successfully!",
         status: 200,
