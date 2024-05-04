@@ -3,6 +3,7 @@ const mongoose = require("mongoose");
 const cors = require("cors");
 const bodyParser = require("body-parser");
 const path = require("path");
+require("dotenv").config()
 
 const loginRoute = require("./router/auth");
 const signupRoute = require("./router/user");
@@ -10,10 +11,12 @@ const softwareHouseProfileRoute = require("./router/completeProfile");
 const createJobRoute = require("./router/createJob");
 const updateProfileRoute = require("./router/updateProfile");
 const publishProjectRoute = require("./router/publishProject");
+const sendEmailRoute = require("./router/sendEmail");
+const jobApplicationRoute = require("./router/jobApplication")
 
 const app = express();
-const port = 3100;
-const connectionString = "mongodb://localhost:27017/startUp";
+const port = process.env.PORT || 3000;
+const connectionString = process.env.MONGO_URL;
 
 app.use(express.static(path.join(__dirname, "public")));
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -34,7 +37,9 @@ app.use("/api/v1/signup", signupRoute);
 app.use("/api/v1/profile", softwareHouseProfileRoute);
 app.use("/api/v1/job", createJobRoute);
 app.use("/api/v1/profile", updateProfileRoute);
-app.use("/api/v1/project", publishProjectRoute)
+app.use("/api/v1/project", publishProjectRoute);
+app.use("/api/v1/email", sendEmailRoute);
+app.use("/api/v1/jobapply", jobApplicationRoute)
 
 
 app.listen(port, () => {

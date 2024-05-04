@@ -27,7 +27,7 @@ const userSchema = new mongoose.Schema({
   },
   profileImage: {
     type: String,
-    default:""
+    default: "",
   },
 
   companyName: {
@@ -43,6 +43,12 @@ const userSchema = new mongoose.Schema({
     type: String,
   },
   companyProfile: [{ type: String }],
+  applications: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Application",
+    },
+  ],
 });
 
 const users = mongoose.model("User", userSchema);

@@ -69,6 +69,20 @@ const deleteJob = async (req, res, next) => {
   }
 };
 
+const getAllJobs = async (req, res, next) => {
+  try {
+    const jobs = await CreateJob.find({});
+    res.status(200).json({
+      message:"jobs fetched successfully",
+      data:jobs,
+      status:200
+    })
+  } catch (err) {
+    console.log(err);
+    res.status(400).json(err.message)
+  }
+}
+
 function validatejob(data) {
   const {
     title,
@@ -109,4 +123,5 @@ module.exports = {
   getAllCreatedJobController,
   getSingleJobDetail,
   deleteJob,
+  getAllJobs
 };

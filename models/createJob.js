@@ -43,6 +43,12 @@ const createJobSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  applications: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Application",
+    },
+  ],
 });
 
 createJobSchema.pre("save", async function (next) {

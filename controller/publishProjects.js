@@ -48,7 +48,7 @@ const getAllProjectsController = async (req, res, next) => {
 const getSingleProjectController = async (req, res, next) => {
   const { id } = req.params;
   try {
-    const project = await PublishProject.find({ projectId: id });
+    const project = await PublishProject.find({ projectId: id }).populate("createdBy");
     if (project.length <= 0) {
       res.status(200).json({
         message: "Invalid Id",
@@ -78,6 +78,20 @@ const deleteProjectController = async (req, res, next) => {
     res.status(400).json(err.message);
   }
 };
+
+const getAllPublishedProjects = async (req, res, next) => {
+  try {
+    const projects = await PublishProject.find({});
+    res.status(200).json({
+      message:"project fetched successfully",
+      data:projects,
+      status:200
+    })
+  } catch (err) {
+    console.log(err);
+    res.status(400).json(err.message)
+  }
+}
 
 function validateProjects(data) {
   const {
@@ -118,5 +132,6 @@ module.exports = {
   publishProjectController,
   getAllProjectsController,
   getSingleProjectController,
-  deleteProjectController
+  deleteProjectController,
+  getAllPublishedProjects
 };
