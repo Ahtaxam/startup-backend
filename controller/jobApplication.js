@@ -23,7 +23,7 @@ const applyJob = async (req, res, next) => {
     if (existingApplication) {
       return res
         .status(400)
-        .json({ message: "User has already applied for this job" });
+        .json({ message: "you have already applied for this job" });
     }
 
     const application = new Application({

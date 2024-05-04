@@ -1,4 +1,6 @@
 const CreateJob = require("../models/createJob");
+const Application = require("../models/jobApplication");
+const User = require("../models/user");
 const joi = require("joi");
 
 const createjobController = async (req, res, next) => {
@@ -24,6 +26,7 @@ const createjobController = async (req, res, next) => {
 const getAllCreatedJobController = async (req, res, next) => {
   try {
     const result = await CreateJob.find({ createdBy: req.user._id });
+
     res.status(200).json({
       message: "Job fetched successfully",
       data: result,
@@ -37,7 +40,12 @@ const getAllCreatedJobController = async (req, res, next) => {
 const getSingleJobDetail = async (req, res, next) => {
   const { id } = req.params;
   try {
-    const job = await CreateJob.find({ jobId: id });
+    const job = await CreateJob.find({ jobId: id }).populate({
+      path: "applications",
+      populate: {
+        path: "user",
+      },
+    });
     if (job.length <= 0) {
       res.status(200).json({
         message: "Invalid Id",
@@ -72,16 +80,32 @@ const deleteJob = async (req, res, next) => {
 const getAllJobs = async (req, res, next) => {
   try {
     const jobs = await CreateJob.find({});
+    const user = await User.find({ _id: req.user._id }).populate(
+      "applications"
+    );
+
+    const jobApplicationStatusMap = new Map();
+    user.map((obj) => {
+      obj.applications.map((obj) =>
+        jobApplicationStatusMap.set(obj.job.toString(), true)
+      );
+    });
+
+    const jobsWithApplicationStatus = jobs.map((job) => {
+      const hasApplied = jobApplicationStatusMap.has(job._id.toString());
+      return { ...job._doc, hasApplied };
+    });
+
     res.status(200).json({
-      message:"jobs fetched successfully",
-      data:jobs,
-      status:200
-    })
+      message: "jobs fetched successfully",
+      data: jobsWithApplicationStatus,
+      status: 200,
+    });
   } catch (err) {
     console.log(err);
-    res.status(400).json(err.message)
+    res.status(400).json(err.message);
   }
-}
+};
 
 function validatejob(data) {
   const {
@@ -123,5 +147,5 @@ module.exports = {
   getAllCreatedJobController,
   getSingleJobDetail,
   deleteJob,
-  getAllJobs
+  getAllJobs,
 };

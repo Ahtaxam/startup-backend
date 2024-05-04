@@ -29,6 +29,9 @@ const userSchema = new mongoose.Schema({
     type: String,
     default: "",
   },
+  universityName: {
+    type: String,
+  },
 
   companyName: {
     type: String,
