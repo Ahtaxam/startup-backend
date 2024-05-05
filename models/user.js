@@ -38,6 +38,12 @@ const userSchema = new mongoose.Schema({
   cgpa: {
     type: String,
   },
+  studentAbout: {
+    type: String,
+  },
+  resume: {
+    type: String,
+  },
 
   companyName: {
     type: String,
@@ -52,6 +58,9 @@ const userSchema = new mongoose.Schema({
     type: String,
   },
   companyProfile: [{ type: String }],
+  companyAbout: { type: String },
+  companyUrl: { type: String },
+  companyStrength: { type: String },
   applications: [
     {
       type: mongoose.Schema.Types.ObjectId,

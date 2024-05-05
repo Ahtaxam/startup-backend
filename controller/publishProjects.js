@@ -48,7 +48,9 @@ const getAllProjectsController = async (req, res, next) => {
 const getSingleProjectController = async (req, res, next) => {
   const { id } = req.params;
   try {
-    const project = await PublishProject.find({ projectId: id }).populate("createdBy");
+    const project = await PublishProject.find({ projectId: id }).populate(
+      "createdBy"
+    );
     if (project.length <= 0) {
       res.status(200).json({
         message: "Invalid Id",
@@ -83,27 +85,19 @@ const getAllPublishedProjects = async (req, res, next) => {
   try {
     const projects = await PublishProject.find({});
     res.status(200).json({
-      message:"project fetched successfully",
-      data:projects,
-      status:200
-    })
+      message: "project fetched successfully",
+      data: projects,
+      status: 200,
+    });
   } catch (err) {
     console.log(err);
-    res.status(400).json(err.message)
+    res.status(400).json(err.message);
   }
-}
+};
 
 function validateProjects(data) {
-  const {
-    title,
-    description,
-    category,
-    keywords,
-    projectLink,
-    githubLink,
-    studentName,
-    universityName,
-  } = data;
+  const { title, description, category, keywords, projectLink, githubLink } =
+    data;
 
   const schema = joi.object({
     title: joi.string().required(),
@@ -112,8 +106,6 @@ function validateProjects(data) {
     githubLink: joi.string().allow("").optional(),
     projectLink: joi.string().allow("").optional(),
     keywords: joi.array().items(joi.string()).min(1).required(),
-    studentName: joi.string().required(),
-    universityName: joi.string().required(),
   });
 
   return schema.validate({
@@ -123,8 +115,6 @@ function validateProjects(data) {
     keywords,
     projectLink,
     githubLink,
-    studentName,
-    universityName,
   });
 }
 
@@ -133,5 +123,5 @@ module.exports = {
   getAllProjectsController,
   getSingleProjectController,
   deleteProjectController,
-  getAllPublishedProjects
+  getAllPublishedProjects,
 };

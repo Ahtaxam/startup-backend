@@ -28,14 +28,7 @@ const publishProjectSchema = new mongoose.Schema({
     default: "",
   },
   images: [{ type: String }],
-  studentName: {
-    type: String,
-    required: true,
-  },
-  universityName: {
-    type: String,
-    required: true,
-  },
+ 
   createdBy: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",
