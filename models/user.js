@@ -32,6 +32,12 @@ const userSchema = new mongoose.Schema({
   universityName: {
     type: String,
   },
+  semester: {
+    type: String,
+  },
+  cgpa: {
+    type: String,
+  },
 
   companyName: {
     type: String,

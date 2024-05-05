@@ -12,7 +12,9 @@ const createJobRoute = require("./router/createJob");
 const updateProfileRoute = require("./router/updateProfile");
 const publishProjectRoute = require("./router/publishProject");
 const sendEmailRoute = require("./router/sendEmail");
-const jobApplicationRoute = require("./router/jobApplication")
+const jobApplicationRoute = require("./router/jobApplication");
+const softwareHouseRoute = require("./router/softwareHouse");
+const ReviewRoute = require("./router/review")
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -39,8 +41,9 @@ app.use("/api/v1/job", createJobRoute);
 app.use("/api/v1/profile", updateProfileRoute);
 app.use("/api/v1/project", publishProjectRoute);
 app.use("/api/v1/email", sendEmailRoute);
-app.use("/api/v1/jobapply", jobApplicationRoute)
-
+app.use("/api/v1/jobapply", jobApplicationRoute);
+app.use("/api/v1/softwarehouse", softwareHouseRoute);
+app.use("/api/v1/review", ReviewRoute)
 
 app.listen(port, () => {
   console.log(`server is listning on port ${port}`);

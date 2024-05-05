@@ -1,6 +1,7 @@
 const CreateJob = require("../models/createJob");
 const Application = require("../models/jobApplication");
 const User = require("../models/user");
+const Review = require("../models/review");
 const joi = require("joi");
 
 const createjobController = async (req, res, next) => {
@@ -77,6 +78,45 @@ const deleteJob = async (req, res, next) => {
   }
 };
 
+// const getAllJobs = async (req, res, next) => {
+//   try {
+//     const jobs = await CreateJob.find({});
+//     const user = await User.find({ _id: req.user._id }).populate(
+//       "applications"
+//     );
+
+//     const jobApplicationStatusMap = new Map();
+//     user.map((obj) => {
+//       obj.applications.map((obj) =>
+//         jobApplicationStatusMap.set(obj.job.toString(), true)
+//       );
+//     });
+
+//     const companyIds = Array.from(new Set(jobs.map((job) => job.createdBy)));
+
+//     const companyReviews = await Review.find({ company: { $in: companyIds } });
+
+//     const companyRatingMap = new Map();
+//     companyReviews.forEach((review) => {
+//       companyRatingMap.set(review.company.toString(), review.rating);
+//     });
+
+//     const jobsWithApplicationStatus = jobs.map((job) => {
+//       const hasApplied = jobApplicationStatusMap.has(job._id.toString());
+//       const rating = companyRatingMap.get(job.createdBy.toString()) || null;
+//       return { ...job._doc, hasApplied, rating };
+//     });
+
+//     res.status(200).json({
+//       message: "jobs fetched successfully",
+//       data: jobsWithApplicationStatus,
+//       status: 200,
+//     });
+//   } catch (err) {
+//     console.log(err);
+//     res.status(400).json(err.message);
+//   }
+// };
 const getAllJobs = async (req, res, next) => {
   try {
     const jobs = await CreateJob.find({});
@@ -85,24 +125,43 @@ const getAllJobs = async (req, res, next) => {
     );
 
     const jobApplicationStatusMap = new Map();
-    user.map((obj) => {
-      obj.applications.map((obj) =>
-        jobApplicationStatusMap.set(obj.job.toString(), true)
+    user.forEach((obj) => {
+      obj.applications.forEach((application) =>
+        jobApplicationStatusMap.set(application.job.toString(), true)
       );
+    });
+
+    const companyIds = Array.from(new Set(jobs.map((job) => job.createdBy)));
+
+    const companyReviews = await Review.aggregate([
+      {
+        $match: { company: { $in: companyIds } },
+      },
+      {
+        $group: {
+          _id: "$company",
+          averageRating: { $avg: "$rating" },
+        },
+      },
+    ]);
+    const companyRatingMap = new Map();
+    companyReviews.forEach((review) => {
+      companyRatingMap.set(review._id.toString(), review.averageRating);
     });
 
     const jobsWithApplicationStatus = jobs.map((job) => {
       const hasApplied = jobApplicationStatusMap.has(job._id.toString());
-      return { ...job._doc, hasApplied };
+      const rating = companyRatingMap.get(job.createdBy.toString()) || null;
+      return { ...job._doc, hasApplied, rating };
     });
 
     res.status(200).json({
-      message: "jobs fetched successfully",
+      message: "Jobs fetched successfully",
       data: jobsWithApplicationStatus,
       status: 200,
     });
   } catch (err) {
-    console.log(err);
+    console.error(err);
     res.status(400).json(err.message);
   }
 };
