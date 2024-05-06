@@ -1,8 +1,8 @@
 const express = require("express");
 const route = express.Router();
 
-const getAllUsers = require("../controller/users");
+const getAllStudents = require("../controller/users");
 
-route.get("/all", getAllUsers);
+route.get("/all", getAllStudents);
 
 module.exports = route;

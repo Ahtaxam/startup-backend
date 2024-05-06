@@ -1,10 +1,21 @@
 const User = require("../models/user");
 
-const getAllUsers = async (req, res, next) => {
+const getAllStudents = async (req, res, next) => {
   try {
-    const users = await User.find({ role: "Student" });
+    const users = await User.aggregate([
+      { $match: { role: "Student" } },
+      {
+        $lookup: {
+          from: "publishprojects",
+          as: "Projects",
+          localField: "_id",
+          foreignField: "createdBy",
+        },
+      },
+    ]);
+
     res.status(200).json({
-      message: "users fetched successfully!",
+      message: "students fetched successfully!",
       data: users,
     });
   } catch (error) {
@@ -12,4 +23,4 @@ const getAllUsers = async (req, res, next) => {
   }
 };
 
-module.exports = getAllUsers;
+module.exports = getAllStudents;

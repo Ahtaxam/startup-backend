@@ -15,7 +15,7 @@ const sendEmailRoute = require("./router/sendEmail");
 const jobApplicationRoute = require("./router/jobApplication");
 const softwareHouseRoute = require("./router/softwareHouse");
 const ReviewRoute = require("./router/review");
-const usersRoute = require("./router/users")
+const studentsRoute = require("./router/users")
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -46,7 +46,7 @@ app.use("/api/v1/email", sendEmailRoute);
 app.use("/api/v1/jobapply", jobApplicationRoute);
 app.use("/api/v1/softwarehouse", softwareHouseRoute);
 app.use("/api/v1/review", ReviewRoute);
-app.use("/api/v1/users", usersRoute)
+app.use("/api/v1/students", studentsRoute)
 
 app.listen(port, () => {
   console.log(`server is listning on port ${port}`);
