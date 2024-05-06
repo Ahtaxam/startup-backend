@@ -1,8 +1,10 @@
 const express = require("express");
 const route = express.Router();
 
-const getAllStudents = require("../controller/users");
+const Students = require("../controller/users");
+const {getAllStudents, getstudentAllProjects} = Students;
 
 route.get("/all", getAllStudents);
+route.get("/projects/:id", getstudentAllProjects)
 
 module.exports = route;
