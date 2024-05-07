@@ -10,21 +10,13 @@ const jwt = require("jsonwebtoken");
 const config = require("../config/key");
 
 const completeProfile = async (req, res) => {
-
   const result = validateUser(req.body);
   if (result.error) {
     res.status(400).json(result.error.details[0].message);
     return;
   }
 
-  const imageUrls = [];
-  for (const file of req.files) {
-    imageUrls.push(
-      `${req.protocol}://${req.get("host")}/uploads/${file.filename}`
-    );
-  }
-
-  const { email, ownerName, companyName, phoneNo, address } = req.body;
+  const { email, ownerName, companyName, phoneNo, address, images } = req.body;
   const user = await User.findOne({ email: req.body.email });
   if (!user) {
     res
@@ -40,7 +32,7 @@ const completeProfile = async (req, res) => {
           companyName,
           phoneNo,
           address,
-          companyProfile: imageUrls,
+          companyProfile: images,
         },
         { new: true }
       );
@@ -49,21 +41,18 @@ const completeProfile = async (req, res) => {
       res.status(200).json({
         message: "Profile completed successfully!",
         status: 200,
-        data: _.pick(
-          result,
-          [
-            "_id",
-            "firstName",
-            "lastName",
-            "email",
-            "role",
-            "companyName",
-            "ownerName",
-            "address",
-            "phoneNo",
-          ],
-        ),
-        token
+        data: _.pick(result, [
+          "_id",
+          "firstName",
+          "lastName",
+          "email",
+          "role",
+          "companyName",
+          "ownerName",
+          "address",
+          "phoneNo",
+        ]),
+        token,
       });
     } catch (error) {
       res.status(400).send(error.message);
