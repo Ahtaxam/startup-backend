@@ -11,7 +11,7 @@ const upload = require("../middleware/multer");
 const isAuth = require("../middleware/isAuth");
 const route = express.Router();
 
-route.post("/publish", isAuth, upload.any(), publishProjectController);
+route.post("/publish", isAuth, publishProjectController);
 route.get("/getAll", isAuth, getAllProjectsController);
 route.get("/all", isAuth, getAllPublishedProjects);
 route.get("/:id", isAuth, getSingleProjectController);

@@ -9,15 +9,8 @@ const publishProjectController = async (req, res, next) => {
   }
 
   try {
-    const imageUrls = [];
-    for (const file of req.files) {
-      imageUrls.push(
-        `${req.protocol}://${req.get("host")}/uploads/${file.filename}`
-      );
-    }
     const project = new PublishProject({
       ...req.body,
-      images: imageUrls,
       createdBy: req.user._id,
     });
 
