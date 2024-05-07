@@ -51,6 +51,7 @@ const completeProfile = async (req, res) => {
           "ownerName",
           "address",
           "phoneNo",
+          "companyProfile"
         ]),
         token,
       });
