@@ -6,12 +6,12 @@ const mailTransporter = nodemailer.createTransport({
     pass: process.env.SENDER_MAIL_PASSWORD,
   },
 });
-const sendInvestorEmail = async (from, to, message) => {
+const sendInvestorEmail = async (from, to, subject, message) => {
   try {
     const mailOptions = {
       from: from,
       to: to,
-      subject: "Startup Discussion Opportunity",
+      subject,
       html: message,
     };
 

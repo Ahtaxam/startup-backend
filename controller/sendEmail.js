@@ -12,7 +12,6 @@ const sendEmailController = async (req, res, next) => {
       address,
       phoneNo
     );
-    console.log(response);
     res.status(200).json({
       message: "offer sent successfully",
       status: 200,
@@ -23,10 +22,9 @@ const sendEmailController = async (req, res, next) => {
 };
 
 const sendInvestorEmailController = async (req, res) => {
-  const { investor, student, message } = req.body;
+  const { sender, receiver, subject, message } = req.body;
   try {
-    const response = await sendInvestorEmail(investor, student, message);
-    console.log(response);
+    const response = await sendInvestorEmail(sender, receiver,subject, message);
     res.status(200).json({
       message: "message sent successfully",
       status: 200,

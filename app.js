@@ -16,6 +16,7 @@ const jobApplicationRoute = require("./router/jobApplication");
 const softwareHouseRoute = require("./router/softwareHouse");
 const ReviewRoute = require("./router/review");
 const studentsRoute = require("./router/users");
+const investorRoute = require("./router/investors")
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -51,6 +52,7 @@ app.use("/api/v1/jobapply", jobApplicationRoute);
 app.use("/api/v1/softwarehouse", softwareHouseRoute);
 app.use("/api/v1/review", ReviewRoute);
 app.use("/api/v1/students", studentsRoute);
+app.use("/api/v1/investor", investorRoute)
 
 app.listen(port, () => {
   console.log(`server is listning on port ${port}`);

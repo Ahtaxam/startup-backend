@@ -6,7 +6,14 @@ const mailTransporter = nodemailer.createTransport({
     pass: process.env.SENDER_MAIL_PASSWORD,
   },
 });
-const handleEmail = async (from, to, message, companyName, address, phoneNo) => {
+const handleEmail = async (
+  from,
+  to,
+  message,
+  companyName,
+  address,
+  phoneNo
+) => {
   const htmlContent = `
         <html>
             <head>
@@ -27,9 +34,9 @@ const handleEmail = async (from, to, message, companyName, address, phoneNo) => 
     `;
   try {
     const mailOptions = {
-      from: from,
-      to:to,
-      subject:"JOb offer letter",
+      from,
+      to: to,
+      subject: "JOb offer letter",
       html: htmlContent,
     };
 
