@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 const cors = require("cors");
 const bodyParser = require("body-parser");
 const path = require("path");
-require("dotenv").config()
+require("dotenv").config();
 
 const loginRoute = require("./router/auth");
 const signupRoute = require("./router/user");
@@ -15,7 +15,7 @@ const sendEmailRoute = require("./router/sendEmail");
 const jobApplicationRoute = require("./router/jobApplication");
 const softwareHouseRoute = require("./router/softwareHouse");
 const ReviewRoute = require("./router/review");
-const studentsRoute = require("./router/users")
+const studentsRoute = require("./router/users");
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -36,6 +36,10 @@ mongoose
     console.log("Error while connecting");
   });
 
+app.get("/", (req, res) => {
+  res.status(200).json("Hello Server")
+});
+
 app.use("/api/v1/login", loginRoute);
 app.use("/api/v1/signup", signupRoute);
 app.use("/api/v1/profile", softwareHouseProfileRoute);
@@ -46,7 +50,7 @@ app.use("/api/v1/email", sendEmailRoute);
 app.use("/api/v1/jobapply", jobApplicationRoute);
 app.use("/api/v1/softwarehouse", softwareHouseRoute);
 app.use("/api/v1/review", ReviewRoute);
-app.use("/api/v1/students", studentsRoute)
+app.use("/api/v1/students", studentsRoute);
 
 app.listen(port, () => {
   console.log(`server is listning on port ${port}`);
