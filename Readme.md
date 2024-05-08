@@ -34,13 +34,13 @@ Startup Synargy is a platform that aims to bridge the gap between students, soft
 Clone the project
 
 ```bash
-  git clone https://github.com/Ahtaxam/startUp
+  git clone https://github.com/Ahtaxam/startup-backend
 ```
 
 Go to the project directory
 
 ```bash
-  cd startUp
+  cd startUuo-backend
 ```
 Set up environment variables:
 
@@ -57,7 +57,7 @@ Install dependencies
 Start the server
 
 ```bash
-  npm run dev
+  npm start
 ```
 
 
