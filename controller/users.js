@@ -2,6 +2,8 @@ const User = require("../models/user");
 const PublishProjects = require("../models/publishProject");
 const mongoose = require("mongoose")
 
+
+// function to get all students
 const getAllStudents = async (req, res, next) => {
   try {
     const users = await User.aggregate([
@@ -25,6 +27,8 @@ const getAllStudents = async (req, res, next) => {
   }
 };
 
+
+// function to get a single user with their all published projects
 const getstudentAllProjects = async (req, res) => {
   try {
     const { id } = req.params;

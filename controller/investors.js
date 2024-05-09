@@ -1,5 +1,7 @@
 const USER = require("../models/user");
 
+
+// controller to get all Investors
 const getAllInvestors = async (req, res) => {
   try {
     const investors = await USER.find({ role: "Investor" });
@@ -12,6 +14,8 @@ const getAllInvestors = async (req, res) => {
   }
 };
 
+
+// controller to get detail of a single investor
 const getSingleInvestor = async (req, res) => {
   try {
     const investor = await USER.find({ _id: req.params.id });

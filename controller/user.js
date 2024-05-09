@@ -6,6 +6,8 @@ const Joi = require("joi");
 const jwt = require("jsonwebtoken");
 const config = require("../config/key");
 
+
+// controller for creating new entities into database
 const createUser = async (req, res) => {
   const result = validateUser(req.body);
   if (result.error) {
@@ -45,6 +47,8 @@ const createUser = async (req, res) => {
   }
 };
 
+
+// function to validate incoming data before creating user
 function validateUser(user) {
   const { firstName, lastName, email, password, role } = user;
 

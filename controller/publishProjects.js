@@ -1,6 +1,8 @@
 const PublishProject = require("../models/publishProject");
 const joi = require("joi");
 
+
+// controller for publish a project
 const publishProjectController = async (req, res, next) => {
   const result = validateProjects(req.body);
   if (result.error) {
@@ -25,6 +27,8 @@ const publishProjectController = async (req, res, next) => {
   }
 };
 
+
+// controller for getting all projects of a particular user
 const getAllProjectsController = async (req, res, next) => {
   try {
     const projects = await PublishProject.find({ createdBy: req.user._id });
@@ -38,6 +42,8 @@ const getAllProjectsController = async (req, res, next) => {
   }
 };
 
+
+// controller for getting detail of a single detail
 const getSingleProjectController = async (req, res, next) => {
   const { id } = req.params;
   try {
@@ -60,6 +66,8 @@ const getSingleProjectController = async (req, res, next) => {
   }
 };
 
+
+// controller for delete a project
 const deleteProjectController = async (req, res, next) => {
   const { id } = req.params;
   try {
@@ -74,6 +82,8 @@ const deleteProjectController = async (req, res, next) => {
   }
 };
 
+
+// controller for getting all published projects on platform
 const getAllPublishedProjects = async (req, res, next) => {
   try {
     const projects = await PublishProject.find({});
@@ -88,6 +98,8 @@ const getAllPublishedProjects = async (req, res, next) => {
   }
 };
 
+
+// function to validate incoming data
 function validateProjects(data) {
   const { title, description, category, keywords, projectLink, githubLink } =
     data;

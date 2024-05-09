@@ -6,6 +6,7 @@ const config = require("../config/key");
 
 const User = require("../models/user");
 
+// controller for user login
 const authUser = async (req, res) => {
   const result = validateUser(req.body);
   if (result.error) {
@@ -36,6 +37,8 @@ const authUser = async (req, res) => {
   }
 };
 
+
+// validate user login credentials
 function validateUser(user) {
   let email = user.email;
   let password = user.password;

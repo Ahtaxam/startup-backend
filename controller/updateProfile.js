@@ -1,5 +1,7 @@
 const USER = require("../models/user");
 
+
+// controller for update profile
 const updateUserProfile = async (req, res, next) => {
   try {
     const user = await USER.findOneAndUpdate(

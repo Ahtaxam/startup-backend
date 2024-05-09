@@ -1,6 +1,8 @@
 const Review = require("../models/review");
 const USER = require("../models/user")
 
+
+// controller for getting all registered software house
 const getAllSoftwareHouses = async (req, res, next) => {
   try {
     const softwareHouses = await USER.find({ role: "Software house" });

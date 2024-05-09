@@ -2,6 +2,8 @@ const Application = require("../models/jobApplication");
 const CreateJob = require("../models/createJob");
 const User = require("../models/user");
 
+
+// controller for applying at a job
 const applyJob = async (req, res, next) => {
   try {
     const { userId, jobId } = req.body;
@@ -32,7 +34,6 @@ const applyJob = async (req, res, next) => {
     });
 
     await application.save();
-    // console.log(job.applications, user.applications);
 
     job.applications.push(application._id);
     await job.save();

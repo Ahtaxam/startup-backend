@@ -1,5 +1,8 @@
 const REVIEWS = require("../models/review");
 
+
+
+// controller to process review given by student to software house
 const postReviewsController = async (req, res, next) => {
   try {
     const existingReview = await REVIEWS.findOne({ givenBy: req.body.givenBy, company:req.body.company });

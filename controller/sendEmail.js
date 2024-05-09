@@ -1,6 +1,8 @@
 const handleEmail = require("../utils/sendEmail");
 const sendInvestorEmail = require("../utils/sendInvestorEmail");
 
+
+// controller to send email to student for job offer
 const sendEmailController = async (req, res, next) => {
   const { email, student, message, companyName, address, phoneNo } = req.body;
   try {
@@ -21,6 +23,7 @@ const sendEmailController = async (req, res, next) => {
   }
 };
 
+// controller for sending email student to investor or vice versa
 const sendInvestorEmailController = async (req, res) => {
   const { sender, receiver, subject, message } = req.body;
   try {

@@ -9,6 +9,8 @@ const jwt = require("jsonwebtoken");
 // const { config } = require("../config/key");
 const config = require("../config/key");
 
+
+// controller for complete profile of software house
 const completeProfile = async (req, res) => {
   const result = validateUser(req.body);
   if (result.error) {
@@ -61,6 +63,8 @@ const completeProfile = async (req, res) => {
   }
 };
 
+
+// validate data before store into DB
 function validateUser(user) {
   const { email, companyName, ownerName, address, phoneNo } = user;
 

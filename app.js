@@ -27,6 +27,8 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.json());
 app.use(cors());
 
+
+// momgoDB connection
 mongoose
   .connect(connectionString)
   .then(() => {
@@ -41,6 +43,8 @@ app.get("/", (req, res) => {
   res.status(200).json("Hello Server")
 });
 
+
+// Api's route
 app.use("/api/v1/login", loginRoute);
 app.use("/api/v1/signup", signupRoute);
 app.use("/api/v1/profile", softwareHouseProfileRoute);
@@ -54,6 +58,7 @@ app.use("/api/v1/review", ReviewRoute);
 app.use("/api/v1/students", studentsRoute);
 app.use("/api/v1/investor", investorRoute)
 
+// start server
 app.listen(port, () => {
   console.log(`server is listning on port ${port}`);
 });
