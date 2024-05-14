@@ -23,7 +23,14 @@ const userSchema = new mongoose.Schema({
   role: {
     type: String,
     required: true,
-    enum: ["Software house", "Student", "Investor"],
+    enum: ["Software house", "Student", "Investor", "Admin", "Moderator"],
+  },
+  status: {
+    type: String,
+    default: "Pending",
+    required: function () {
+      return this.role === "Investor";
+    },
   },
   profileImage: {
     type: String,
